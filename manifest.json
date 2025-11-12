@@ -1,14 +1,24 @@
 {
-    "display_name": "Roleplay Post Generator",
-    "description": "สร้างโพสต์โซเชียลมีเดียจากบทสนทนาในบทบาท",
+    "display_name": "Social Media Posts",
     "version": "1.0.0",
-    "author": "คุณ",
-    "repo": "https://github.com/your-repo/roleplay-post-generator",
+    "author": "fayfay",
+    "description": "สร้างโพสต์โซเชียลมีเดียจากบทสนทนาระหว่าง {{char}} และ {{user}} - Generate social media posts from RPG conversations",
+    "homepage": "https://github.com/yourusername/social-media-posts-extension",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yourusername/social-media-posts-extension.git"
+    },
+    "dependencies": {},
     "tags": [
-        "social",
-        "post",
+        "social-media",
+        "posts",
         "roleplay",
+        "immersion",
         "twitter",
-        "facebook"
-    ]
+        "facebook",
+        "instagram"
+    ],
+    "icon": "📱",
+    "sort_order": 100
 }
