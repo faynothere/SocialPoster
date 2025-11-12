@@ -2,7 +2,7 @@
     "display_name": "Social Media Posts",
     "version": "1.0.0",
     "author": "fayfay",
-    "description": "สร้างโพสต์โซเชียลมีเดียจากบทสนทนาระหว่าง {{char}} และ {{user}}",
+    "description": "Generate social media posts from character conversations",
     "homepage": "https://github.com/yourusername/social-media-posts-extension",
     "license": "MIT",
     "repository": {
@@ -13,11 +13,8 @@
     "tags": [
         "social-media",
         "posts",
-        "roleplay",
-        "immersion"
+        "roleplay"
     ],
     "icon": "📱",
-    "sort_order": 100,
-    "module": true,
-    "allow_html": true
+    "sort_order": 90
 }
