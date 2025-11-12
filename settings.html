@@ -1,0 +1,167 @@
+<div id="social-media-settings" class="social-media-settings">
+    <div class="settings-section">
+        <h3>📱 Social Media Posts</h3>
+        
+        <!-- Basic Settings -->
+        <div class="inline-drawer">
+            <div class="inline-drawer-toggle inline-drawer-header">
+                <b>Basic Settings</b>
+                <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+            </div>
+            <div class="inline-drawer-content">
+                <div class="flex-container flexGap5 flexNoWrap">
+                    <label for="socialMediaEnabled" class="checkbox_label">
+                        <input type="checkbox" id="socialMediaEnabled" {{#if settings.enabled}}checked{{/if}}>
+                        Enable Social Media Posts
+                    </label>
+                </div>
+                
+                <div class="flex-container flexGap5 flexNoWrap">
+                    <label for="socialMediaFrequency">Auto-post every:</label>
+                    <input type="number" id="socialMediaFrequency" value="{{settings.autoPostFrequency}}" min="1" max="10" class="text_pole">
+                    <span>messages</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Platform Selection -->
+        <div class="inline-drawer">
+            <div class="inline-drawer-toggle inline-drawer-header">
+                <b>Platforms</b>
+                <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+            </div>
+            <div class="inline-drawer-content">
+                <div class="platform-grid">
+                    {{#each platforms}}
+                    <label class="checkbox_label">
+                        <input type="checkbox" class="social-platform-checkbox" value="{{@key}}" 
+                               {{#if (contains ../settings.enabledPlatforms @key)}}checked{{/if}}>
+                        {{this.icon}} {{this.name}}
+                    </label>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Post -->
+        <div class="inline-drawer">
+            <div class="inline-drawer-toggle inline-drawer-header">
+                <b>Create Post</b>
+                <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+            </div>
+            <div class="inline-drawer-content">
+                <div class="flex-container flexGap5 flexNoWrap">
+                    <label for="socialMediaPlatform">Platform:</label>
+                    <select id="socialMediaPlatform" class="text_pole">
+                        {{#each platforms}}
+                        <option value="{{@key}}">{{this.icon}} {{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                
+                <div class="flex-container flexGap5 flexNoWrap">
+                    <label for="socialMediaTemplate">Style:</label>
+                    <select id="socialMediaTemplate" class="text_pole">
+                        <option value="random">🎲 Random</option>
+                        <option value="reflective">🤔 Reflective</option>
+                        <option value="emotional">😊 Emotional</option>
+                        <option value="casual">☕ Casual</option>
+                    </select>
+                </div>
+                
+                <div class="flex-container flexGap5">
+                    <button id="createSocialPost" class="menu_button">Create Post</button>
+                    <button id="clearSocialPosts" class="menu_button">Clear All Posts</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Posts Feed -->
+        <div class="inline-drawer">
+            <div class="inline-drawer-toggle inline-drawer-header">
+                <b>Recent Posts</b>
+                <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+            </div>
+            <div class="inline-drawer-content">
+                <div id="socialMediaPostsFeed" class="posts-feed">
+                    <!-- Posts will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.social-media-settings {
+    margin: 10px 0;
+}
+
+.platform-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.posts-feed {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 5px;
+    padding: 10px;
+    background: var(--SmartThemeBodyColor);
+}
+
+.social-post {
+    background: var(--SmartThemeBlurTintColor);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--SmartThemeQuoteColor);
+}
+
+.social-post.twitter {
+    border-left-color: #1DA1F2;
+}
+
+.social-post.facebook {
+    border-left-color: #1877F2;
+}
+
+.social-post.instagram {
+    border-left-color: #E4405F;
+}
+
+.social-post.threads {
+    border-left-color: #000000;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+.post-content {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+.post-stats {
+    display: flex;
+    gap: 10px;
+    font-size: 11px;
+    color: var(--SmartThemeTextColor);
+    opacity: 0.7;
+}
+
+.no-posts {
+    text-align: center;
+    color: var(--SmartThemeTextColor);
+    opacity: 0.5;
+    font-style: italic;
+    padding: 20px;
+}
+                      </style>
