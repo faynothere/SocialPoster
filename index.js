@@ -292,231 +292,12 @@ function getRandomPlatform() {
 
 // เพิ่มโพสต์ใหม่
 function addNewPost(post) {
-    if (!extension        "ไม่น่าเชื่อว่าจะเกิดเรื่องแบบนี้! {{context}}",
-        "เรื่องน่าตกใจเกิดขึ้น... {{context}}",
-        "ตอนนี้กำลังเกิดขึ้น... {{context}}"
-    ]
-};
-
-const platforms = {
-    'twitter': { name: 'Twitter', icon: '🐦', maxLength: 280 },
-    'facebook': { name: 'Facebook', icon: '📘', maxLength: 5000 },
-    'instagram': { name: 'Instagram', icon: '📷', maxLength: 2200 },
-    'threads': { name: 'Threads', icon: '🧵', maxLength: 500 }
-};
-
-// ฟังก์ชันโหลดการตั้งค่า
-function loadSettings() {
-    extension_settings[extensionName] = extension_settings[extensionName] || {};
-    
-    // รวมการตั้งค่าเริ่มต้น
-    for (const [key, value] of Object.entries(defaultSettings)) {
-        if (extension_settings[extensionName][key] === undefined) {
-            extension_settings[extensionName][key] = value;
-        }
-    }
-    
-    // โหลดโพสต์จาก localStorage
-    const savedPosts = localStorage.getItem(`${extensionName}_posts`);
-    if (savedPosts) {
-        extension_settings[extensionName].posts = JSON.parse(savedPosts);
-    }
-}
-
-// บันทึกการตั้งค่า
-function saveSettings() {
-    localStorage.setItem(`${extensionName}_posts`, JSON.stringify(extension_settings[extensionName].posts));
-    saveSettingsDebounced();
-}
-
-// สร้าง UI
-async function createUI() {
-    const container = document.getElementById('extensions_settings2');
-    if (!container) {
-        console.error('Extensions container not found');
-        return;
-    }
-
-    try {
-        const template = await renderExtensionTemplate(extensionFolderPath, 'template.html', {
-            settings: extension_settings[extensionName],
-            platforms: platforms,
-            postTemplates: postTemplates
-        });
-
-        container.insertAdjacentHTML('beforeend', template);
-        attachEventListeners();
-        updatePostsFeed(); // อัพเดตฟีดโพสต์เมื่อโหลด UI
-    } catch (error) {
-        console.error('Error creating social media extension UI:', error);
-    }
-}
-
-// ผูก event listeners
-function attachEventListeners() {
-    // Toggle extension
-    const toggle = document.getElementById('socialMediaToggle');
-    if (toggle) {
-        toggle.addEventListener('change', (e) => {
-            extension_settings[extensionName].enabled = e.target.checked;
-            saveSettings();
-        });
-    }
-
-    // Create post button
-    const createBtn = document.getElementById('createPostBtn');
-    if (createBtn) {
-        createBtn.addEventListener('click', createManualPost);
-    }
-
-    // Auto-post frequency
-    const freqInput = document.getElementById('autoPostFreq');
-    if (freqInput) {
-        freqInput.addEventListener('change', (e) => {
-            extension_settings[extensionName].autoPostFrequency = parseInt(e.target.value);
-            saveSettings();
-        });
-    }
-
-    // Platform checkboxes
-    document.querySelectorAll('.platform-checkboxes input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', updateEnabledPlatforms);
-    });
-
-    // Clear posts button
-    const clearBtn = document.getElementById('clearPostsBtn');
-    if (clearBtn) {
-        clearBtn.addEventListener('click', clearAllPosts);
-    }
-}
-
-// อัพเดตแพลตฟอร์มที่เปิดใช้งาน
-function updateEnabledPlatforms() {
-    const enabled = [];
-    document.querySelectorAll('.platform-checkboxes input[type="checkbox"]:checked').forEach(checkbox => {
-        enabled.push(checkbox.value);
-    });
-    extension_settings[extensionName].enabledPlatforms = enabled;
-    saveSettings();
-}
-
-// สร้างโพสต์ manual
-function createManualPost() {
-    if (!extension_settings[extensionName].enabled) {
-        toastr.warning('กรุณาเปิดใช้งาน extension ก่อนสร้างโพสต์');
-        return;
-    }
-
-    const platformSelect = document.getElementById('postPlatform');
-    const templateSelect = document.getElementById('postTemplate');
-    
-    if (!platformSelect || !templateSelect) {
-        console.error('Form elements not found');
-        return;
-    }
-
-    const platform = platformSelect.value;
-    const templateType = templateSelect.value;
-    
-    const post = generatePost(platform, templateType);
-    addNewPost(post);
-    showPostNotification(post);
-}
-
-// สร้างโพสต์
-function generatePost(platform, templateType = 'random') {
-    const recentChat = getRecentChatContext(3);
-    const context = extractPostContext(recentChat);
-    const charName = getCurrentCharName();
-    
-    // เลือก template
-    const actualTemplateType = templateType === 'random' ? getRandomTemplateType() : templateType;
-    
-    // สร้างเนื้อหาโพสต์
-    let content = generatePostContent(context, actualTemplateType);
-    
-    // ตัดให้เหมาะสมกับแพลตฟอร์ม
-    const maxLength = platforms[platform].maxLength;
-    if (content.length > maxLength) {
-        content = content.substring(0, maxLength - 3) + '...';
-    }
-    
-    // เพิ่ม hashtag
-    if (platform === 'instagram' || platform === 'twitter') {
-        content += generateHashtags();
-    }
-
-    return {
-        id: Date.now(),
-        content: content,
-        platform: platform,
-        platformName: platforms[platform].name,
-        platformIcon: platforms[platform].icon,
-        character: charName,
-        timestamp: new Date().toLocaleString('th-TH'),
-        likes: Math.floor(Math.random() * 100),
-        comments: Math.floor(Math.random() * 20),
-        shares: Math.floor(Math.random() * 10),
-        template: actualTemplateType
-    };
-}
-
-// สร้างเนื้อหาโพสต์
-function generatePostContent(context, templateType) {
-    const templates = postTemplates[templateType];
-    const template = templates[Math.floor(Math.random() * templates.length)];
-    return template.replace('{{context}}', context);
-}
-
-// ดึง context จากบทสนทนา
-function extractPostContext(recentChat) {
-    if (recentChat.length === 0) {
-        return "มีเรื่องราวน่าสนใจเกิดขึ้น...";
-    }
-
-    const lastUserMsg = recentChat.find(msg => msg.is_user);
-    const lastCharMsg = recentChat.find(msg => !msg.is_user);
-
-    if (lastUserMsg && lastCharMsg) {
-        return `หลังจากที่ ${lastUserMsg.name} พูดว่า "${shortenText(lastUserMsg.mes, 60)}" ทำให้รู้สึกว่า "${shortenText(lastCharMsg.mes, 80)}"`;
-    } else if (lastCharMsg) {
-        return shortenText(lastCharMsg.mes, 120);
-    }
-
-    return "กำลังคิดเกี่ยวกับเรื่องที่เกิดขึ้น...";
-}
-
-// สุ่ม hashtag
-function generateHashtags() {
-    const hashtags = [
-        ' #ชีวิตประจำวัน', ' #ความคิด', ' #ความรู้สึก', 
-        ' #เรื่องราว', ' #บทสนทนา', ' #RPG'
-    ];
-    return hashtags[Math.floor(Math.random() * hashtags.length)];
-}
-
-// สุ่มประเภท template
-function getRandomTemplateType() {
-    const types = Object.keys(postTemplates);
-    return types[Math.floor(Math.random() * types.length)];
-}
-
-// สุ่มแพลตฟอร์ม
-function getRandomPlatform() {
-    const enabled = extension_settings[extensionName].enabledPlatforms;
-    if (enabled.length === 0) return 'twitter';
-    return enabled[Math.floor(Math.random() * enabled.length)];
-}
-
-// เพิ่มโพสต์ใหม่
-function addNewPost(post) {
     if (!extension_settings[extensionName].posts) {
         extension_settings[extensionName].posts = [];
     }
     
     extension_settings[extensionName].posts.unshift(post);
     
-    // จำกัดจำนวนโพสต์
     if (extension_settings[extensionName].posts.length > extension_settings[extensionName].maxPosts) {
         extension_settings[extensionName].posts = extension_settings[extensionName].posts.slice(0, extension_settings[extensionName].maxPosts);
     }
@@ -564,14 +345,11 @@ function showPostNotification(post) {
     if (!extension_settings[extensionName].enableNotifications) return;
 
     if (typeof toastr !== 'undefined') {
-        toastr.success(`โพสต์ใหม่บน ${post.platformName}!`, "Social Media Posts", {
+        toastr.success(`New post on ${post.platformName}!`, "Social Media Posts", {
             timeOut: 3000,
             extendedTimeOut: 1000
         });
     }
-    
-    // Log to console for debugging
-    console.log(`📱 [${post.platformName}] ${post.character}: ${post.content}`);
 }
 
 // ฟังก์ชัน utility
@@ -591,15 +369,18 @@ function shortenText(text, maxLength) {
     return text.substring(0, maxLength - 3) + '...';
 }
 
-function clearAllPosts() {
-    extension_settings[extensionName].posts = [];
-    saveSettings();
-    updatePostsFeed();
-    toastr.info('ล้างโพสต์ทั้งหมดแล้ว');
+// ล้างโพสต์ทั้งหมด
+async function clearAllPosts() {
+    const confirmed = await callConfirm('Are you sure you want to clear all posts? This action cannot be undone.');
+    if (confirmed) {
+        extension_settings[extensionName].posts = [];
+        saveSettings();
+        updatePostsFeed();
+        toastr.info('All posts have been cleared');
+    }
 }
 
 // ตรวจจับการส่งข้อความ
-let messageCounter = 0;
 function onChatMessageSent() {
     if (!extension_settings[extensionName]?.enabled) return;
     
@@ -669,7 +450,8 @@ function shouldCreatePostFromResponse(response) {
 
 // เริ่มต้น extension
 jQuery(async () => {
-    // รอจน SillyTavern โหลดเสร็จ
+    if (isInitialized) return;
+    
     let attempts = 0;
     const maxAttempts = 50;
     
@@ -679,13 +461,14 @@ jQuery(async () => {
         if (getContext() && extension_settings) {
             clearInterval(waitForLoad);
             loadSettings();
-            createUI();
+            createMenuButton();
             
             // ลงทะเบียน event listeners
             eventSource.on(event_types.MESSAGE_SENT, onChatMessageSent);
             eventSource.on(event_types.MESSAGE_RECEIVED, onAiResponseGenerated);
             
-            console.log('📱 Social Media Posts Extension โหลดเสร็จแล้ว!');
+            isInitialized = true;
+            console.log('📱 Social Media Posts Extension loaded successfully!');
         } else if (attempts >= maxAttempts) {
             clearInterval(waitForLoad);
             console.error('Social Media Posts Extension: Failed to load - SillyTavern context not found');
@@ -701,4 +484,4 @@ if (typeof module !== 'undefined' && module.exports) {
         loadSettings,
         saveSettings
     };
-      }
+                         }
