@@ -1,0 +1,33 @@
+{
+    "extensions": [
+        {
+            "name": "roleplayPostGenerator",
+            "version": "1.0.0",
+            "display_name": "Roleplay Post Generator",
+            "description": "สร้างโพสต์จากบทสนทนาระหว่าง {{char}} กับ {{user}} ในรูปแบบโซเชียลมีเดีย",
+            "author": "fayfay",
+            "homepage": "https://github.com/faynothere/sillytavern-roleplay-post-generator",
+            "requires": [],
+            "files": [
+                {
+                    "name": "script.js",
+                    "type": "script"
+                },
+                {
+                    "name": "styles.css",
+                    "type": "style"
+                },
+                {
+                    "name": "manifest.json",
+                    "type": "meta"
+                }
+            ],
+            "tags": [
+                "roleplay",
+                "social",
+                "post",
+                "thai"
+            ]
+        }
+    ]
+}
