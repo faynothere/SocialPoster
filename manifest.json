@@ -1,20 +1,9 @@
 {
-    "display_name": "Social Media Posts",
-    "version": "1.0.0",
+    "display_name": "Roleplay Post Generator",
+    "loading_order": 10,
+    "requires": [],
     "author": "fayfay",
-    "description": "Generate social media posts from character conversations",
-    "homepage": "https://github.com/yourusername/social-media-posts-extension",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/yourusername/social-media-posts-extension.git"
-    },
-    "dependencies": {},
-    "tags": [
-        "social-media",
-        "posts",
-        "roleplay"
-    ],
-    "icon": "📱",
-    "sort_order": 90
+    "version": "1.0.0",
+    "homepage": "https://github.com/faynothere/sillytavern-roleplay-post-generator",
+    "description": "สร้างโพสต์จากบทสนทนาระหว่าง {{char}} กับ {{user}} ในรูปแบบโซเชียลมีเดีย"
 }
