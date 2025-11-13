@@ -1,263 +1,250 @@
-/* Character Social Post Generator Styles */
-#social-post-ext__container {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin: 6px 0;
-    position: relative;
-    flex-wrap: wrap;
+/* ===== RP Social Post Extension ===== */
+
+#rp-post-ext__container {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  position: relative;
+  flex-wrap: wrap;
 }
 
-#social-post-ext__btn {
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: 1px solid var(--SmartThemeBorderColor);
-    background: var(--SmartThemeBlurTintColor);
-    color: var(--SmartThemeBodyColor);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s ease;
+/* ปุ่มหลัก */
+#rp-post-ext__btn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #222;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-#social-post-ext__btn:hover {
-    background: var(--SmartThemeEmColor);
-    transform: translateY(-1px);
+#rp-post-ext__btn span {
+  font-size: 12px;
 }
 
-#social-post-ext__menu {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    margin-top: 4px;
-    padding: 12px;
-    background: var(--SmartThemeBlurTintColor);
-    color: var(--SmartThemeBodyColor);
-    border: 1px solid var(--SmartThemeBorderColor);
-    border-radius: 8px;
-    gap: 8px;
-    z-index: 10000;
-    min-width: 200px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+/* กล่องตั้งค่าเล็ก ๆ ข้างปุ่ม (auto, max message) */
+#rp-post-ext__menu {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  margin-left: 4px;
 }
 
-#social-post-ext__menu label {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    padding: 4px 0;
+#rp-post-ext__menu label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
 }
 
-#social-post-ext__menu input[type="checkbox"] {
-    margin: 0;
+#rp-post-ext__menu input[type="number"] {
+  width: 60px;
+  padding: 2px 4px;
+  font-size: 11px;
 }
 
-/* Modal Styles */
-#social-post-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 100000;
-    backdrop-filter: blur(4px);
+/* ===== Popup Overlay ===== */
+
+#rp-post-ext__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
 }
 
-#social-post-modal__content {
-    background: var(--SmartThemeBlurTintColor);
-    border-radius: 12px;
-    padding: 24px;
-    max-width: 600px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    border: 1px solid var(--SmartThemeBorderColor);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+#rp-post-ext__backdrop.rp-post-ext__open {
+  display: flex;
 }
 
-#social-post-modal__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--SmartThemeBorderColor);
+#rp-post-ext__popup {
+  background: #111;
+  color: #eee;
+  border-radius: 8px;
+  padding: 10px 12px;
+  width: min(640px, 100% - 24px);
+  max-height: 80vh;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .7);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
 }
 
-#social-post-modal__title {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--SmartThemeBodyColor);
-    margin: 0;
+#rp-post-ext__popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
 }
 
-#social-post-modal__close {
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: var(--SmartThemeBodyColor);
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
+#rp-post-ext__popup-title {
+  font-weight: 600;
 }
 
-#social-post-modal__close:hover {
-    background: var(--SmartThemeBorderColor);
+#rp-post-ext__popup-close {
+  border: none;
+  background: transparent;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
 }
 
-#social-post-modal__posts {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+#rp-post-ext__popup-close:hover {
+  color: #fff;
 }
 
-.social-post {
-    background: var(--SmartThemeBodyColor);
-    border: 1px solid var(--SmartThemeBorderColor);
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
+#rp-post-ext__popup-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
 }
 
-.social-post__header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 12px;
+#rp-post-ext__latest-label {
+  font-size: 12px;
+  opacity: .9;
 }
 
-.social-post__avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--SmartThemeEmColor);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
+#rp-post-ext__textarea {
+  width: 100%;
+  min-height: 150px;
+  max-height: 280px;
+  resize: vertical;
+  background: #000;
+  color: #eee;
+  border-radius: 6px;
+  border: 1px solid #333;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  box-sizing: border-box;
 }
 
-.social-post__info {
-    flex: 1;
+/* ปุ่มใน popup */
+#rp-post-ext__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
 }
 
-.social-post__name {
-    font-weight: 600;
-    color: var(--SmartThemeBodyColor);
-    margin: 0;
+.rp-post-ext__btn-secondary,
+.rp-post-ext__btn-primary {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 1px solid transparent;
 }
 
-.social-post__meta {
-    font-size: 12px;
-    color: var(--SmartThemeBodyColor);
-    opacity: 0.7;
-    margin: 0;
+.rp-post-ext__btn-secondary {
+  background: transparent;
+  color: #ddd;
+  border-color: #444;
 }
 
-.social-post__content {
-    color: var(--SmartThemeBodyColor);
-    line-height: 1.5;
-    margin-bottom: 12px;
-    white-space: pre-wrap;
+.rp-post-ext__btn-secondary:hover {
+  background: #222;
 }
 
-.social-post__actions {
-    display: flex;
-    gap: 16px;
-    padding-top: 12px;
-    border-top: 1px solid var(--SmartThemeBorderColor);
+.rp-post-ext__btn-primary {
+  background: #0d6efd;
+  border-color: #0d6efd;
+  color: #fff;
 }
 
-.social-post__action {
-    background: none;
-    border: none;
-    color: var(--SmartThemeBodyColor);
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+.rp-post-ext__btn-primary:hover {
+  filter: brightness(1.1);
 }
 
-.social-post__action:hover {
-    background: var(--SmartThemeBorderColor);
+/* History list */
+#rp-post-ext__history {
+  margin-top: 4px;
+  border-top: 1px solid #333;
+  padding-top: 4px;
+  font-size: 12px;
 }
 
-.social-post__platform {
-    display: inline-block;
-    padding: 2px 8px;
-    background: var(--SmartThemeEmColor);
-    color: white;
-    border-radius: 12px;
-    font-size: 10px;
-    font-weight: 600;
-    margin-left: 8px;
+#rp-post-ext__history-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
 }
 
-/* Platform-specific styles */
-.social-post.facebook {
-    border-left: 4px solid #1877F2;
+#rp-post-ext__history-list {
+  max-height: 160px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.social-post.twitter {
-    border-left: 4px solid #1DA1F2;
+.rp-post-ext__history-item {
+  border-radius: 4px;
+  border: 1px solid #333;
+  padding: 4px 6px;
+  cursor: pointer;
+  background: #181818;
 }
 
-.social-post.instagram {
-    border-left: 4px solid #E4405F;
+.rp-post-ext__history-item:hover {
+  background: #222;
 }
 
-/* Loading state */
-#social-post-modal__loading {
-    text-align: center;
-    padding: 40px;
-    color: var(--SmartThemeBodyColor);
+.rp-post-ext__history-meta {
+  font-size: 11px;
+  opacity: .7;
+  margin-bottom: 2px;
 }
 
-/* Empty state */
-#social-post-modal__empty {
-    text-align: center;
-    padding: 40px;
-    color: var(--SmartThemeBodyColor);
-    opacity: 0.7;
+.rp-post-ext__history-preview {
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* Toast เล็ก ๆ */
+#rp-post-ext__toast {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, .85);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 11px;
+  z-index: 100000;
+  opacity: 0;
+  transition: opacity .18s ease;
+  pointer-events: none;
+}
+
+/* Responsive */
 @media (max-width: 600px) {
-    #social-post-ext__btn,
-    #social-post-ext__menu label {
-        width: 100%;
-    }
-    
-    body > #social-post-ext__container {
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        max-width: calc(100% - 24px);
-    }
-    
-    body > #social-post-ext__container #social-post-ext__menu {
-        left: 0;
-        right: auto;
-        width: 100%;
-    }
-    
-    #social-post-modal__content {
-        margin: 20px;
-        width: calc(100% - 40px);
-    }
+  #rp-post-ext__btn,
+  #rp-post-ext__menu label {
+    width: 100%;
+  }
+
+  body > #rp-post-ext__container {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    max-width: calc(100% - 24px);
+  }
     }
