@@ -4,8 +4,11 @@
   "js": "index.js",
   "css": "style.css",
   "author": "fay",
-  "version": "0.0.2",
-  "description": "หน้าโซเชียลปลอมแบบเฟส/ทวิต ให้ {{char}} โพสต์บ่นจากบทโรลกับ {{user}}",
+  "version": "1.0.0",
+  "homePage": "https://example.com",
+  "dependencies": [],
+  "requires": [],
+  "optional": [],
   "auto_update": false,
-  "minimum_client_version": "0.0.0"
+  "minimum_client_version": "1.0.0"
 }
